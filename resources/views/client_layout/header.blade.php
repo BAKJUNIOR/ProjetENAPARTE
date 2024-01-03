@@ -100,7 +100,7 @@
                         <a href="{{url('/SoinsBeaute')}}" class="nav-link">NOS SOINS DE BEAUTE</a>
                     </li>
                     <li class="nav-item {{request()->is('SoinsBeaute') ? 'active' : '' }}">
-                    <a href="{{route('priseRDV')}}" class="nav-link"> Prendre rdv en ligne</a>
+                    <a href="{{route('PriseRendez-vous')}}" class="nav-link"> Prendre rdv en ligne</a>
                     </li>
                 </ul>
             </div>

@@ -7,6 +7,8 @@ use App\Http\Controllers\clientController;
 use App\Http\Controllers\ListeEtudiantsController;
 use App\Http\Controllers\pdfController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\RendezVousController;
+use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\SliderController;
 use App\Http\Controllers\UproleController;
 use App\Http\Controllers\UserController;
@@ -108,5 +110,7 @@ Route::post('/connexionCompte', [clientController::class ,'connexionCompte']);
 Route::get('/logout', [clientController::class ,'logout']);
 Route::post('/payer', [clientController::class ,'payer']);
 
-Route::get('/priseRDV', [clientController::class ,'RDV'])->name('priseRDV');
-
+Route::get('/PriseRendez-vous', [RendezVousController::class,'PriseRendezVous'])->name('PriseRendez-vous');
+Route::get('/services', [ServiceController::class, 'index']);
+Route::get('/employes', [UserGestionController::class, 'index']);
+Route::post('/rendezvous', [RendezVousController::class, 'AddPriseRendezVous'])->name('AddPriseRendezVous');

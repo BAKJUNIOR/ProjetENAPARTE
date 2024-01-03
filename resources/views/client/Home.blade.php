@@ -48,7 +48,7 @@
                 <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                     <div class="shop-cat-box">
                         <img class="img-fluid" src="fontend/images/Enparter.jpg" alt="" />
-                        <a class="btn hvr-hover" href="{{route('priseRDV')}}">Soins Capillaires Professionnels
+                        <a class="btn hvr-hover" href="{{route('PriseRendez-vous')}}">Soins Capillaires Professionnels
                             <p>Prendre Rendez-vous</p>
                         </a>
 
@@ -57,7 +57,7 @@
                 <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                     <div class="shop-cat-box">
                         <img class="img-fluid" src="fontend/images/Enparter2.jpg" alt="" />
-                        <a class="btn hvr-hover" href="{{route('priseRDV')}}"> Massages Relaxants & Soins du Visage
+                        <a class="btn hvr-hover" href="{{route('PriseRendez-vous')}}"> Massages Relaxants & Soins du Visage
                             <p>Prendre Rendez-vous</p>
                         </a>
                     </div>

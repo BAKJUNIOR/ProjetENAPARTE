@@ -169,9 +169,6 @@ class clientController extends Controller
    }
 
 
-    function RDV(){
-        return view('client.PriseRendezVous');
-    }
 
 
 }
