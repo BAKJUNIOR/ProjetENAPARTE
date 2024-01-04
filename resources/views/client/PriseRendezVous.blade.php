@@ -16,6 +16,12 @@
 
     @endif
 
+    @if(session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
+
     <form action="{{route('AddPriseRendezVous')}}" method="post">
         @csrf <!-- Ajoutez cette ligne pour la protection CSRF dans Laravel -->
 
@@ -57,7 +63,7 @@
             <input type="time" class="form-control" id="heure" name="heure" required>
         </div>
 
-        <button type="submit" class="btn btn-warning">Soumettre Rendez-vous</button>
+        <button type="submit" class="btn btn-warning" > Soumettre Rendez-vous</button>
     </form>
 
 
