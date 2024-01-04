@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthenController;
 use App\Http\Controllers\CategorieController;
 use App\Http\Controllers\clientController;
+use App\Http\Controllers\EmployeController;
 use App\Http\Controllers\ListeEtudiantsController;
 use App\Http\Controllers\pdfController;
 use App\Http\Controllers\ProductController;
@@ -111,6 +112,4 @@ Route::get('/logout', [clientController::class ,'logout']);
 Route::post('/payer', [clientController::class ,'payer']);
 
 Route::get('/PriseRendez-vous', [RendezVousController::class,'PriseRendezVous'])->name('PriseRendez-vous');
-Route::get('/services', [ServiceController::class, 'index']);
-Route::get('/employes', [UserGestionController::class, 'index']);
 Route::post('/rendezvous', [RendezVousController::class, 'AddPriseRendezVous'])->name('AddPriseRendezVous');

@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\RendezVouse;
 use App\Models\Service;
 use App\Models\User;
-use Couchbase\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Client;
@@ -20,7 +19,7 @@ class RendezVousController extends Controller
         $services = Service::all();
         $employes = User::where('role', 'user')->get();
 
-        return view('client.PriseRendezVous', compact('services', 'employes'));
+        return view('client.PriseRendezVous')->with('services',$services)->with('employes' , $employes);
     }
 
 
@@ -55,8 +54,7 @@ class RendezVousController extends Controller
             $rendezVous->save();
 
             // Autres opérations...
-
-            return view('client.PriseRendezVous')->with('status', 'Rendez-vous créé avec succès!');
+            return back()->with('status', 'Rendez-vous créé avec succès!');
         } else {
             // L'utilisateur n'est pas un client, redirigez-le vers la page de connexion
             return redirect('/connexion')->with('error', 'Vous devez être connecté pour prendre un rendez-vous.');

@@ -45,15 +45,9 @@
             </select>
         </div>
 
-        <div class="form-group">
-            <label for="heure">Nom & prénom :</label>
-            <input type="text" class="form-control" id="fullname" name="fullname" required>
-        </div>
+
 
         <div class="form-group">
-            <label for="heure">Email:</label>
-            <input type="email" class="form-control" id="email" name="email" required>
-
             <label for="date">Date du Rendez-vous :</label>
             <input type="date" class="form-control" id="date" name="date" required>
         </div>
@@ -79,8 +73,70 @@
 
 </div>
 <br>
+<script>
+    function generateEvenHours() {
+        var select = document.getElementById('heure');
+        select.innerHTML = '';
+        for (var i = 8; i <= 16; i += 2) {
+            var formattedHour = ('0' + i).slice(-2);
+            var option = document.createElement('option');
+            var heurSuivant = (i + 2);
+            option.value = formattedHour + ':00';
+            if (i === 12) {
+                option.text = '';
+                option.disabled = true;
+            } else {
+                option.text = formattedHour + ':00' + '-' + heurSuivant + ':00';
+            }
 
+            select.appendChild(option);
+        }
+    }
 
+    document.getElementById('date').addEventListener('input', function (event) {
+        generateEvenHours();
+        hideFormOnMonday(event.target.value);
+    });
+
+    function hideFormOnMonday(selectedDate) {
+        var day = new Date(selectedDate).getDay();
+        var form = document.getElementById('rendezVousForm');
+
+        if (day === 1) { // 1 corresponds à lundi
+            form.style.display = 'none';
+            document.getElementById('error-message').innerText = "Les rendez-vous ne sont pas disponibles le lundi.";
+        } else {
+            form.style.display = 'block';
+            document.getElementById('error-message').innerText = '';
+        }
+    }
+
+    var today = new Date();
+    var todayISO = today.toISOString().split('T')[0];
+    document.getElementById('date').min = todayISO;
+
+    var maxDate = new Date(today);
+    maxDate.setDate(today.getDate() + 7);
+    document.getElementById('date').max = maxDate.toISOString().split('T')[0];
+
+    function isWeekend(dateString) {
+        var selectedDate = new Date(dateString);
+        var day = selectedDate.getDay();
+        return day === 0 || day === 6;
+    }
+
+    document.getElementById('date').addEventListener('input', function (event) {
+        var selectedDate = event.target.value;
+        if (isWeekend(selectedDate)) {
+            event.target.value = '';
+            document.getElementById('error-message').innerText = "Les rendez-vous ne sont pas disponibles le week-end.";
+        } else {
+            document.getElementById('error-message').innerText = '';
+        }
+
+        hideFormOnMonday(selectedDate);
+    });
+</script>
 
 
 @endsection
