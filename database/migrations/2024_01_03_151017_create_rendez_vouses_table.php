@@ -19,9 +19,8 @@ return new class extends Migration
             $table->foreignId('user_id')->nullable()->constrained('users')->onUpdate('restrict')->onDelete('restrict');
             $table->foreignId('service_id')->constrained('services')->onUpdate('restrict')->onDelete('restrict');
             $table->date('date');
-            $table->time('start_time');
-            $table->time('end_time')->nullable();
-            $table->enum('status', ['en_attente', 'confirme', 'annule'])->default('en_attente');
+            $table->time('heure');
+            $table->enum('status', ['en_attente', 'confirmer', 'annule'])->default('en_attente');
             $table->dateTime('debut_prestation')->nullable();
             $table->dateTime('fin_prestation')->nullable();
             $table->enum('etat', ['termine', 'en_cours', 'annule'])->default('en_cours');

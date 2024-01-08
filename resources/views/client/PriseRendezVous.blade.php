@@ -22,12 +22,12 @@
         </div>
     @endif
 
-    <form action="{{route('AddPriseRendezVous')}}" method="post">
+    <form action="{{url('AddPriseRendezVous')}} " method="post">
         @csrf <!-- Ajoutez cette ligne pour la protection CSRF dans Laravel -->
 
         <div class="form-group">
             <label for="service">Service :</label>
-            <select class="form-control" id="service" name="service" onchange="updateServiceAmount()">
+            <select class="form-control" id="service" name="service_id" onchange="updateServiceAmount()">
                 @foreach($services as $service)
                     <option value="{{ $service->id }}">{{ $service->name }} - {{ $service->price }} €</option>
                 @endforeach
@@ -49,12 +49,12 @@
 
         <div class="form-group">
             <label for="date">Date du Rendez-vous :</label>
-            <input type="date" class="form-control" id="date" name="date" required>
+            <input type="date" class="form-control" id="date" name="date" onchange="checkDay()" required>
         </div>
 
         <div class="form-group">
             <label for="heure">Heure du Rendez-vous :</label>
-            <input type="time" class="form-control" id="heure" name="heure" required>
+            <input type="time" class="form-control" id="heure" name="heure" min="09:00" max="19:00" required>
         </div>
 
         <button type="submit" class="btn btn-warning" > Soumettre Rendez-vous</button>
@@ -136,6 +136,15 @@
 
         hideFormOnMonday(selectedDate);
     });
+
+        function checkDay() {
+        var selectedDate = new Date(document.getElementById("date").value);
+        // 0 correspond à dimanche, 1 correspond à lundi, ..., 6 correspond à samedi
+        if (selectedDate.getDay() === 1) {
+        alert("Nous somme fermé les lundi");
+        document.getElementById("date").value = "";
+    }
+    }
 </script>
 
 

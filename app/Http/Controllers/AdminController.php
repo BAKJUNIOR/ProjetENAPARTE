@@ -11,7 +11,7 @@ use App\Models\Order;
 class AdminController extends Controller
 {
     function index(){
-        return view('Dossier_admins/page_admin/sidebar');
+        return view('Dossier_admins/Home');
     }
 
     public function addCategorie(){

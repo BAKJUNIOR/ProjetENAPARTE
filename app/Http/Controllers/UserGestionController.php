@@ -14,10 +14,14 @@ class UserGestionController extends Controller
 {
     function index()
     {
+        return view('Dossier_admins/Home');
+    }
+
+    function listUsers()
+    {
         $data = User::all();
         return view('Dossier_admins/page_admin/user_control/userGestion', ['uc' => $data]);
     }
-
     function AjouterUtilisateur()
     {
         return view('Dossier_admins/page_admin/user_control.AjouterUtilisateur');
@@ -122,7 +126,7 @@ class UserGestionController extends Controller
 
         Session::flash('success', "L'utilisateur  supprimé avec succès");
 
-        return redirect('/userGestion');
+        return redirect('/listUsers');
     }
 }
 

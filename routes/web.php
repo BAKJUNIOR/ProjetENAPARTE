@@ -39,16 +39,19 @@ Route::middleware(['auth'])->group(function (){
     Route::redirect('/home' , '/');
     Route::get('/admin' , [AdminController::class , 'index'] )->name('admin')->middleware('userAcces:admin');
     Route::get('/user' , [UserGestionController::class , 'index'] )->name('user')->middleware('userAcces:user'); // page d'inscription
+    Route::get('/RendezVous', [RendezVousController::class, 'RendezVousUser'])->name('RendezVous')->middleware('userAcces:user');
+    Route::get('/AllRendezVousUser', [RendezVousController::class, 'AllUserRendezVous'])->name('AllRendezVousUser')->middleware('userAcces:user');
+    Route::get('/confirmerRendezVous/{id}',[RendezVousController::class, 'ConfirmationRendezVous'])->name('confirmerRendezVous')->middleware('userAcces:user');
 
 
     //gestion des utilisateurs
     Route::get('/AjouterUtilisateur', [UserGestionController::class, 'AjouterUtilisateur'])->name('AjouterUtilisateur');
+     Route::get('/listUsers', [UserGestionController::class, 'listUsers'])->name('listUsers');
     Route::post('/AjouterUtilisateur', [UserGestionController::class, 'create']);
     Route::get('/editUtilisateur/{id}', [UserGestionController::class, 'editUtilisateur'])->name('editUtilisateur');
     Route::post('/editUtilisateur', [UserGestionController::class, 'ModifierUser']);
     Route::post('/deleteUtilisateur/{id}', [UserGestionController::class, 'deleteUtilisateur']);
     Route::post('/uprole/{id}', [UproleController::class, 'index']);
-    Route::get('/userGestion' , [UserGestionController::class, 'index'] )->name('userGestion');
 
 
     // Admin Controller routes
@@ -80,7 +83,7 @@ Route::middleware(['auth'])->group(function (){
     // Product controller
     Route::post('/SaveProduct', [ProductController::class ,'SaveProduct'])->name('SaveProduct');
     Route::delete('/deleteProduct/{id}', [ProductController::class ,'deleteProduct']);
-    Route::get('/editeProduct/{id}', [ProductController::class ,'editeProduct']);
+    Route::get('/editeProduct/{id}', [ProductController::class ,'editeProduct'])->name('editeProduct');;
     Route::put('/UpdateProduct/{id}', [ProductController::class ,'UpdateProduct']);
     Route::put('/DesactiverProduct/{id}', [ProductController::class ,'DesactiverProduct']);
     Route::put('/activerProduct/{id}', [ProductController::class ,'activerProduct']);
@@ -100,7 +103,6 @@ Route::middleware(['auth'])->group(function (){
 Route::get('/', [clientController::class ,'Home']); // rédiriger vers la page Home
 Route::get('/boutique', [clientController::class ,'boutique'])->name('boutique'); // rédiriger vers la page boutique
 Route::get('/panier', [clientController::class ,'panier']); // rédiriger vers la page panier
-Route::get('/checkout', [clientController::class ,'checkout']); // rédiriger vers la page payement
 Route::get('/inscription', [clientController::class ,'inscription']); // rédiriger vers la page inscription
 Route::get('/connexion', [clientController::class ,'connexion']); // rédiriger vers la page connexion
 Route::get('/AjouterPanier/{id}', [clientController::class ,'AjouterPanier']); // rédiriger vers la page panier
@@ -109,7 +111,8 @@ Route::get('/panier/supprimerItem/{id}', [clientController::class ,'supprimerIte
 Route::post('/createCompte', [clientController::class ,'createCompte']);
 Route::post('/connexionCompte', [clientController::class ,'connexionCompte']);
 Route::get('/logout', [clientController::class ,'logout']);
+Route::get('/checkout', [clientController::class ,'checkout']); // rédiriger vers la page payement
 Route::post('/payer', [clientController::class ,'payer']);
 
 Route::get('/PriseRendez-vous', [RendezVousController::class,'PriseRendezVous'])->name('PriseRendez-vous');
-Route::post('/rendezvous', [RendezVousController::class, 'AddPriseRendezVous'])->name('AddPriseRendezVous');
+Route::post('/AddPriseRendezVous', [RendezVousController::class, 'AddPriseRendezVous']);

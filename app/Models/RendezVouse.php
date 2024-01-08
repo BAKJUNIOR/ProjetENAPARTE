@@ -10,7 +10,7 @@ class RendezVouse extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['client_id' , 'service_id' , 'date', 'start_time', 'end_time', 'status', 'debut_prestation', 'fin_prestation', 'etat'];
+    protected $fillable = ['client_id' ,'user_id', 'service_id', 'date', 'heure' , 'status', 'debut_prestation', 'fin_prestation', 'etat'];
 
     public function client(): BelongsTo
     {

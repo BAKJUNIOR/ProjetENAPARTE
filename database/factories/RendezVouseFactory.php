@@ -24,9 +24,8 @@ class RendezVouseFactory extends Factory
             'user_id' => User::factory(),
             'service_id' => Service::factory(),
             'date' => $this->faker->date,
-            'start_time' => $this->faker->time,
-            'end_time' => $this->faker->time,
-            'status' => $this->faker->randomElement(['en_attente', 'confirme', 'annule']),
+            'heure' => $this->faker->time,
+            'status' => $this->faker->randomElement(['en_attente', 'confirmer', 'annule']),
             'etat' => $this->faker->randomElement(['termine', 'en_cours', 'annule']),
         ];
     }
