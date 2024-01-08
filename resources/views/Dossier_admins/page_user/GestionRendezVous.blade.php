@@ -10,6 +10,7 @@
 @section('main')
     <div class="container-fluid">
 
+        <input type="hidden" {{$increment =1}}>
         <!-- DataTales Example -->
         <div class="card shadow mb-4">
             <div class="card-header py-3">
@@ -19,15 +20,37 @@
                 <div class="table-responsive">
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                         <thead>
+
                         <tr>
                             <th>Nom du client</th>
                             <th>Service</th>
+                            <th>Employé</th>
                             <th>Date</th>
                             <th>Heure</th>
                             <th>Statut</th>
                             <th >Décision</th>
                         </tr>
                         </thead>
+                        @foreach ($rendezVous as $rendezVouss)
+                            <tr>
+
+                                <td>{{ $rendezVouss->client->nom }}</td>
+                                <td>{{ $rendezVouss->service->name }}</td>
+                                <td>{{ $rendezVouss->user->fullname }}</td>
+                                <td>{{ $rendezVouss->date }}</td>
+                                <td>{{ $rendezVouss->heure }}</td>
+                                <td>{{ $rendezVouss-> status  }}</td>
+
+                                <td>
+                                    <div class="d-flex"  >
+
+
+                                    </div>
+
+                                </td>
+                            </tr>
+                            {{$increment++}}
+                            @endforeach
                     </table>
                 </div>
             </div>

@@ -61,7 +61,8 @@ Route::middleware(['auth'])->group(function (){
     Route::get('/Categorie', [AdminController::class ,'Categorie'])->name('Categorie');
     Route::get('/Slider', [AdminController::class ,'Slider'])->name('Slider');
     Route::get('/product', [AdminController::class ,'product'])->name('product');
-    Route::get('/order', [AdminController::class ,'order'])->name('order');;
+    Route::get('/order', [AdminController::class ,'order'])->name('order');
+
 
 
     // Categories controller

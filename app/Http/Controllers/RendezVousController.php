@@ -23,7 +23,8 @@ class RendezVousController extends Controller
     }
 
     public function RendezVousUser(){
-        return view('Dossier_admins.page_user.GestionRendezVous');
+        $rendezVous = RendezVouse :: get();
+        return view('Dossier_admins/page_user/GestionRendezVous')->with('rendezVous' , $rendezVous);
     }
 
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\RendezVouse;
 use Illuminate\Http\Request;
 use App\Models\Categories;
 use App\Models\Product;
@@ -45,6 +46,8 @@ class AdminController extends Controller
         return view('Dossier_admins/page_admin/product')->with('products' , $products);
 
     }
+
+
 
     public function order(){
 

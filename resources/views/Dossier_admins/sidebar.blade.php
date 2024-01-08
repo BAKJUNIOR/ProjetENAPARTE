@@ -85,23 +85,8 @@
 
             @endif
 
-
-
-
-
-
-
         @if(Auth::user()->role === 'user' /*Employe*/)
 
-                <!-- Divider -->
-                <hr class="sidebar-divider">
-
-                <!-- Nav Item - Tables -->
-                <li class="nav-item">
-                    <a class="nav-link" href="{{'order'}}">
-                        <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-                        <span>Gestion prise rendez-vous</span></a>
-                </li>
 
 
 
