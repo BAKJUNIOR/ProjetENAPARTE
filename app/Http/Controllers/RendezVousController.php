@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\RendezVousConfirmMail;
 use App\Models\RendezVouse;
 use App\Models\Service;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Client;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 
 class RendezVousController extends Controller
@@ -20,11 +23,6 @@ class RendezVousController extends Controller
         $employes = User::where('role', 'user')->get();
 
         return view('client.PriseRendezVous')->with('services',$services)->with('employes' , $employes);
-    }
-
-    public function RendezVousUser(){
-        $rendezVous = RendezVouse :: get();
-        return view('Dossier_admins/page_user/GestionRendezVous')->with('rendezVous' , $rendezVous);
     }
 
 
@@ -64,20 +62,40 @@ class RendezVousController extends Controller
     }
 
     public function AllUserRendezVous()/*ADMIN*/{
-        $rendezvous = RendezVouse::whereIn('user_id',[Auth::user()->id,1])->with('client','user','service')->get();
-        return response()->json($rendezvous);
+        $appointments = RendezVouse::where('status', 'en_attente')->get();
+        return view('Dossier_admins/page_user/GestionRendezVous', ['appointment' => $appointments]);
     }
 
-    public function ConfirmationRendezVous($rendezVous){
-        $rendezVous = RendezVouse::where('id', $rendezVous);
-        if($rendezVous->get()[0]->status == "confirme"){
-            $message = 'Déjà confirmer par '.$rendezVous->get()[0]->user->fullname;
-        }else{
-            $rendezVous->update(['status'=>'confirme','user_id'=>Auth::user()->id]);
-            $message = 'Confirmation éfectuer.';
+
+
+
+    public function ConfirmationRendezVous($id) {
+
+        $appointment = RendezVouse::findOrFail($id);
+
+        if ($appointment->status == 'en_attente') {
+            $appointment->update(['status' => 'confirmer']);
+
+            Mail::to($appointment->client->email)->send(new RendezVousConfirmMail($appointment));
+
+            return response()->json(['message' => 'Rendez-vous confirmé avec succès.']);
+        } else {
+            return response()->json(['message' => 'Le rendez-vous n\'est pas en attente, impossible de le confirmer.']);
         }
-        return response()->json($message);
+
     }
 
+
+    public function cancelRendezVous($id){
+
+        $appointment = RendezVouse::findOrFail($id);
+
+        if ($appointment->status == 'en_attente') {
+            $appointment->update(['status' => 'annule']);
+            return response()->json(['message' => 'Rendez-vous annulé avec succès.']);
+        }
+
+        return response()->json(['message' => "Impossible d'annuler ce rendez-vous."]);
+    }
 
 }

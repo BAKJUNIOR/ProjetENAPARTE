@@ -10,7 +10,6 @@
 @section('main')
     <div class="container-fluid">
 
-        <input type="hidden" {{$increment =1}}>
         <!-- DataTales Example -->
         <div class="card shadow mb-4">
             <div class="card-header py-3">
@@ -20,37 +19,33 @@
                 <div class="table-responsive">
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                         <thead>
-
                         <tr>
                             <th>Nom du client</th>
                             <th>Service</th>
-                            <th>Employé</th>
                             <th>Date</th>
                             <th>Heure</th>
                             <th>Statut</th>
                             <th >Décision</th>
                         </tr>
                         </thead>
-                        @foreach ($rendezVous as $rendezVouss)
+                        <tbody >
+                        @foreach ($appointment as $appointments)
                             <tr>
-
-                                <td>{{ $rendezVouss->client->nom }}</td>
-                                <td>{{ $rendezVouss->service->name }}</td>
-                                <td>{{ $rendezVouss->user->fullname }}</td>
-                                <td>{{ $rendezVouss->date }}</td>
-                                <td>{{ $rendezVouss->heure }}</td>
-                                <td>{{ $rendezVouss-> status  }}</td>
-
+                                <td>{{ $appointments->client->nom }} {{ $appointments->client->prenom }}</td>
+                                <td>{{ $appointments->service->name }}</td>
+                                <td>{{ $appointments->date }}</td>
+                                <td>{{ $appointments->heure }}</td>
+                                <td>{{ $appointments->status }}</td>
                                 <td>
-                                    <div class="d-flex"  >
-
-
-                                    </div>
-
+                                    <!-- Ajoutez ici des boutons pour la confirmation et l'annulation -->
+                                    <button onclick="confirmerRendezVous({{ $appointments->id }})"class="btn btn-success btn-circle" ><i class="fa fa-check" aria-hidden="true"></i>
+                                    </button>
+                                    <button onclick="cancelRendezVous({{ $appointments->id }})">Annuler</button>
                                 </td>
                             </tr>
-                            {{$increment++}}
-                            @endforeach
+                        @endforeach
+
+                        </tbody>
                     </table>
                 </div>
             </div>
@@ -58,35 +53,20 @@
 
     </div>
 @endsection
+<!-- Ajoutez ce script dans votre vue ou un fichier JavaScript séparé -->
 
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
 <script>
-    function actualiserContenu() {
-        var tableau = document.getElementById("dataTable");
-        var tbody = document.getElementById("dataTable");
+    function confirmerRendezVous(appointmentId) {
         $.ajax({
-            url: '/AllRendezVousUser', // L'URL de votre route Laravel
+            url: '/confirmerRendezVous/' + appointmentId,
             type: 'GET',
             dataType: 'json',
-            success: function(data) {
-                if(document.getElementById(data[0].id) == null){
-                    var nouvelleLigne = tbody.insertRow();
-                    nouvelleLigne.id = `${data[0].id}`;
-                    var nouvelleCellule = nouvelleLigne.insertCell(0);
-                    nouvelleCellule.innerHTML = `${data[0].client['nom']} ${data[0].client['prenom']}`;
-                    var nouvelleCellule = nouvelleLigne.insertCell(1);
-                    nouvelleCellule.innerHTML = data[0].service['name'];
-                    var nouvelleCellule = nouvelleLigne.insertCell(2);
-                    nouvelleCellule.innerHTML = data[0].date;
-                    var nouvelleCellule = nouvelleLigne.insertCell(3);
-                    nouvelleCellule.innerHTML = data[0].start_time;
-                    var nouvelleCellule = nouvelleLigne.insertCell(4);
-                    // Ajout du texte dans la cellule
-                    nouvelleCellule.innerHTML = data[0].status;
-                    var nouvelleCellule = nouvelleLigne.insertCell(5);
-                    nouvelleCellule.innerHTML  = '<button onclick="ConfirmerRendezVous('+data[0].id+')" class="btn btn-success btn-circle" ><i class="fas fa-check"></i></button> <button class="btn btn-danger btn-circle"><i class="fas fa-trash"></i></button>';
-                }
-
+            success: function(response) {
+                alert(response.message);
+                // Actualiser la liste des rendez-vous en attente après la confirmation
+                refreshAppointments();
             },
             error: function(xhr, status, error) {
                 console.error(xhr.responseText);
@@ -94,19 +74,34 @@
         });
     }
 
-    function ConfirmerRendezVous(idRendezVous) {
+    function cancelRendezVous(appointmentId) {
         $.ajax({
-            url: '/confirmerRendezVous/'+idRendezVous, // L'URL de votre route Laravel
+            url: '/cancelRendezVous/' + appointmentId,
             type: 'GET',
             dataType: 'json',
-            success: function(data) {
-                alert(data);
+            success: function(response) {
+                alert(response.message);
+                // Actualiser la liste des rendez-vous en attente après l'annulation
+                refreshAppointments();
             },
             error: function(xhr, status, error) {
                 console.error(xhr.responseText);
             }
         });
     }
-    window.onload = actualiserContenu;
-    setInterval(actualiserContenu, 2000);
+
+    function refreshAppointments() {
+        // Actualiser la liste des rendez-vous en attente sans recharger la page
+        $.ajax({
+            url: '/employee/appointments',
+            type: 'GET',
+            dataType: 'html',
+            success: function(data) {
+                $('tbody').html(data);
+            },
+            error: function(xhr, status, error) {
+                console.error(xhr.responseText);
+            }
+        });
+    }
 </script>

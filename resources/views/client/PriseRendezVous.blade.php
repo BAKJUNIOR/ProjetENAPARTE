@@ -7,7 +7,7 @@
 @section('content')  <!-- Le contenu dynamique-->
 
 <div class="container mt-5" style="font-size: 18px" >
-    <h1>Prise de Rendez-vous</h1>
+    <h1 style="font-size: 35px ">Prise de Rendez-vous</h1>
 
     @if (Session::has('status'))
         <div class="alert alert-success">
@@ -22,7 +22,7 @@
         </div>
     @endif
 
-    <form action="{{url('AddPriseRendezVous')}} " method="post">
+    <form action="{{url('AddPriseRendezVous')}} " method="post" style="font-size: 20px">
         @csrf <!-- Ajoutez cette ligne pour la protection CSRF dans Laravel -->
 
         <div class="form-group">
@@ -36,9 +36,10 @@
 
         </div>
 
-        <div >
+        <div>
             <label for="employe_id">Choisissez votre Esthéticienne :</label>
-            <select name="employe_id" id="employe_id">
+            <select name="employe_id" id="employe_id" style="border-radius: 7px " >
+                <option value="" selected>Sans importance</option>
                 @foreach($employes as $employe)
                     <option value="{{ $employe->id }}">{{ $employe->fullname }}</option>
                 @endforeach
@@ -57,7 +58,7 @@
             <input type="time" class="form-control" id="heure" name="heure" min="09:00" max="19:00" required>
         </div>
 
-        <button type="submit" class="btn btn-warning" > Soumettre Rendez-vous</button>
+        <button type="submit" style="background-color: #C79843 ; border-radius: 12px " > Soumettre Rendez-vous</button>
     </form>
 
 

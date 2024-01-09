@@ -21,7 +21,7 @@
                         <div class="col-md-12">
                             <h1 class="m-b-20"><strong>Bienvenue à <br> EN APARTÉ</strong></h1>
                             <p class="m-b-40" style="font-size: 25px"> {{$slider->description1}} <br> {{$slider->description2}} </p>
-                            <p><a class="btn hvr-hover" href="{{route('priseRDV')}}">Prendre Rendez-vous</a></p>
+                            <p><a class="btn hvr-hover" href="{{route('PriseRendez-vous')}}">Prendre Rendez-vous</a></p>
 
 
                         </div>

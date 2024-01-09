@@ -4,45 +4,88 @@
     <!-- Sidebar -->
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
-        @if(Auth::user()->role === 'admin')
+
+            @if(Auth::user()->role === 'admin')
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{'admin'}}">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <img src="{{asset('page_dashboards/img/En_aparté_2021.png')}}" alt="" style="width: 100px;">
                 </div>
-
             </a>
-        @elseif(Auth::user()->role === 'user')
+
+            <!-- Divider -->
+            <hr class="sidebar-divider my-0">
+
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item active">
+                <a class="nav-link" href="{{'admin'}}">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Tableau de bard</span></a>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                ADMINISTRER
+            </div>
+            @elseif(Auth::user()->role === 'user')
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{'user'}}">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <img src="{{asset('page_dashboards/img/En_aparté_2021.png')}}" alt="" style="width: 100px;">
                 </div>
-
             </a>
-        @endif
+
+            <!-- Divider -->
+            <hr class="sidebar-divider my-0">
+
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item active">
+                <a class="nav-link" href="{{'user'}}">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Tableau de bard</span></a>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                ADMINISTRER
+            </div>
+            @elseif(Auth::user()->role === 'vendeur')
+            <!-- Sidebar - Brand -->
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{'vendeur'}}">
+                <div class="sidebar-brand-icon rotate-n-15">
+                    <img src="{{asset('page_dashboards/img/En_aparté_2021.png')}}" alt="" style="width: 100px;">
+                </div>
+            </a>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider my-0">
+
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item active">
+                <a class="nav-link" href="{{'vendeur'}}">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Tableau de bard</span></a>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                ADMINISTRER
+            </div>
+            @endif
 
 
-        <!-- Divider -->
-        <hr class="sidebar-divider my-0">
 
-        <!-- Nav Item - Dashboard -->
-        <li class="nav-item active">
-            <a class="nav-link" href="{{'admin'}}">
-                <i class="fas fa-fw fa-tachometer-alt"></i>
-                <span>Tableau de bard</span></a>
-        </li>
-
-        <!-- Divider -->
-        <hr class="sidebar-divider">
-
-        <!-- Heading -->
-        <div class="sidebar-heading">
-            ADMINISTRER
-        </div>
-
-        <!-- Nav Item - Pages Collapse Menu -->
-            @if(Auth::user()->role === 'admin')
+            <!-- Nav Item - Pages Collapse Menu -->
+            @if(Auth::user()->role === 'vendeur')
         <li class="nav-item">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                aria-expanded="true" aria-controls="collapseTwo">
@@ -75,12 +118,7 @@
                         <span>Gestion des commandes </span></a>
                 </li>
 
-                <!-- Nav Item - Tables -->
-                <li class="nav-item">
-                    <a class="nav-link" href="{{'listUsers'}}">
-                        <i class="fa fa-user" aria-hidden="true"></i>
-                        <span>Gestion des Utilisateurs </span></a>
-                </li>
+
 
 
             @endif
@@ -88,10 +126,8 @@
         @if(Auth::user()->role === 'user' /*Employe*/)
 
 
-
-
                 <li class="nav-item">
-                    <a class="nav-link" href="{{'RendezVous'}}">
+                    <a class="nav-link" href="{{'AllRendezVousUser'}}">
                         <i class="fa fa-user" aria-hidden="true"></i>
                         <span>Gestion des Rendez-vous</span></a>
                 </li>

@@ -14,6 +14,7 @@ use App\Http\Controllers\SliderController;
 use App\Http\Controllers\UproleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserGestionController;
+use App\Http\Controllers\VendeurController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -37,63 +38,71 @@ Route::get('/verify/{verify_key}' , [AuthenController::class , 'verify'] );; // 
 Route::middleware(['auth'])->group(function (){
 
     Route::redirect('/home' , '/');
-    Route::get('/admin' , [AdminController::class , 'index'] )->name('admin')->middleware('userAcces:admin');
-    Route::get('/user' , [UserGestionController::class , 'index'] )->name('user')->middleware('userAcces:user'); // page d'inscription
-    Route::get('/RendezVous', [RendezVousController::class, 'RendezVousUser'])->name('RendezVous')->middleware('userAcces:user');
-    Route::get('/AllRendezVousUser', [RendezVousController::class, 'AllUserRendezVous'])->name('AllRendezVousUser')->middleware('userAcces:user');
+
+    //Acces user
+    Route::get('/user' , [UserGestionController::class , 'index'] )->name('user')->middleware('userAcces:user');
     Route::get('/confirmerRendezVous/{id}',[RendezVousController::class, 'ConfirmationRendezVous'])->name('confirmerRendezVous')->middleware('userAcces:user');
+    Route::get('cancelRendezVous/{id}', [RendezVousController::class, 'cancelRendezVous'])->name('cancelRendezVous')->middleware('userAcces:user');
+    Route::get('/AllRendezVousUser', [RendezVousController::class, 'AllUserRendezVous'])->name('AllRendezVousUser')->middleware('userAcces:user');
 
 
-    //gestion des utilisateurs
-    Route::get('/AjouterUtilisateur', [UserGestionController::class, 'AjouterUtilisateur'])->name('AjouterUtilisateur');
-     Route::get('/listUsers', [UserGestionController::class, 'listUsers'])->name('listUsers');
-    Route::post('/AjouterUtilisateur', [UserGestionController::class, 'create']);
-    Route::get('/editUtilisateur/{id}', [UserGestionController::class, 'editUtilisateur'])->name('editUtilisateur');
-    Route::post('/editUtilisateur', [UserGestionController::class, 'ModifierUser']);
-    Route::post('/deleteUtilisateur/{id}', [UserGestionController::class, 'deleteUtilisateur']);
-    Route::post('/uprole/{id}', [UproleController::class, 'index']);
+
+    // end Acces user
 
 
-    // Admin Controller routes
-    Route::get('/addCategorie' , [AdminController::class , 'addCategorie'] )->name('addCategorie');
-    Route::get('/addproduct', [AdminController::class ,'addproduct'])->name('addproduct');
-    Route::get('/addSlider', [AdminController::class ,'addSlider'])->name('addSlider');
-    Route::get('/Categorie', [AdminController::class ,'Categorie'])->name('Categorie');
-    Route::get('/Slider', [AdminController::class ,'Slider'])->name('Slider');
-    Route::get('/product', [AdminController::class ,'product'])->name('product');
-    Route::get('/order', [AdminController::class ,'order'])->name('order');
+    //Acces admin
+    Route::get('/admin' , [AdminController::class , 'index'] )->name('admin')->middleware('userAcces:admin');
+    Route::get('/AjouterUtilisateur', [UserGestionController::class, 'AjouterUtilisateur'])->name('AjouterUtilisateur')->middleware('userAcces:admin');
+    Route::get('/listUsers', [UserGestionController::class, 'listUsers'])->name('listUsers')->middleware('userAcces:admin')->middleware('userAcces:admin');
+    Route::post('/AjouterUtilisateur', [UserGestionController::class, 'create'])->middleware('userAcces:admin')->middleware('userAcces:admin');
+    Route::get('/editUtilisateur/{id}', [UserGestionController::class, 'editUtilisateur'])->name('editUtilisateur')->middleware('userAcces:admin');
+    Route::post('/editUtilisateur', [UserGestionController::class, 'ModifierUser'])->middleware('userAcces:admin');
+    Route::post('/deleteUtilisateur/{id}', [UserGestionController::class, 'deleteUtilisateur'])->middleware('userAcces:admin');
+    Route::post('/uprole/{id}', [UproleController::class, 'index'])->middleware('userAcces:admin');
+    // end Acces admin
 
+
+    // Acces vendeur
+    Route::get('/vendeur' , [VendeurController::class , 'index'] )->name('vendeur')->middleware('userAcces:vendeur');
+    Route::get('/addCategorie' , [VendeurController::class , 'addCategorie'] )->name('addCategorie')->middleware('userAcces:vendeur');
+    Route::get('/addproduct', [VendeurController::class ,'addproduct'])->name('addproduct')->middleware('userAcces:vendeur');
+    Route::get('/addSlider', [VendeurController::class ,'addSlider'])->name('addSlider')->middleware('userAcces:vendeur');
+    Route::get('/Categorie', [VendeurController::class ,'Categorie'])->name('Categorie')->middleware('userAcces:vendeur');
+    Route::get('/Slider', [VendeurController::class ,'Slider'])->name('Slider')->middleware('userAcces:vendeur');
+    Route::get('/product', [VendeurController::class ,'product'])->name('product')->middleware('userAcces:vendeur');
+    Route::get('/order', [VendeurController::class ,'order'])->name('order')->middleware('userAcces:vendeur');
 
 
     // Categories controller
-    Route::post('/SaveCategorie', [CategorieController::class ,'SaveCategorie'])->name('SaveCategorie');  // Savegarder vers la base de donnée
-    Route::delete('/deleteCategorie/{id}', [CategorieController::class ,'deleteCategorie'])->name('deleteCategorie');
-    Route::get('/editeCategorie/{id}', [CategorieController::class ,'editeCategorie'])->name('editeCategorie');
-    Route::put('/UpdateCategorie/{id}', [CategorieController::class ,'UpdateCategorie'])->name('UpdateCategorie');
+    Route::post('/SaveCategorie', [CategorieController::class ,'SaveCategorie'])->name('SaveCategorie')->middleware('userAcces:vendeur');  // Savegarder vers la base de donnée
+    Route::delete('/deleteCategorie/{id}', [CategorieController::class ,'deleteCategorie'])->name('deleteCategorie')->middleware('userAcces:vendeur');
+    Route::get('/editeCategorie/{id}', [CategorieController::class ,'editeCategorie'])->name('editeCategorie')->middleware('userAcces:vendeur');
+    Route::put('/UpdateCategorie/{id}', [CategorieController::class ,'UpdateCategorie'])->name('UpdateCategorie')->middleware('userAcces:vendeur');
 
 
 
     // Slider controller
-    Route::post('/SaveSlider', [SliderController::class ,'SaveSlider'])->name('SaveSlider');
-    Route::delete('/deleteSlider/{id}', [SliderController::class ,'deleteSlider'])->name('deleteSlider');
-    Route::get('/editeSlider/{id}', [SliderController::class ,'editeSlider'])->name('editeSlider');
-    Route::put('/UpdateSlider/{id}', [SliderController::class ,'UpdateSlider']);
-    Route::put('/DesactiverSlider/{id}', [SliderController::class ,'DesactiverSlider']);
-    Route::put('/activerSlider/{id}', [SliderController::class ,'activerSlider']);
+    Route::post('/SaveSlider', [SliderController::class ,'SaveSlider'])->name('SaveSlider')->middleware('userAcces:vendeur');
+    Route::delete('/deleteSlider/{id}', [SliderController::class ,'deleteSlider'])->name('deleteSlider')->middleware('userAcces:vendeur');
+    Route::get('/editeSlider/{id}', [SliderController::class ,'editeSlider'])->name('editeSlider')->middleware('userAcces:vendeur');
+    Route::put('/UpdateSlider/{id}', [SliderController::class ,'UpdateSlider'])->middleware('userAcces:vendeur');
+    Route::put('/DesactiverSlider/{id}', [SliderController::class ,'DesactiverSlider'])->middleware('userAcces:vendeur');
+    Route::put('/activerSlider/{id}', [SliderController::class ,'activerSlider'])->middleware('userAcces:vendeur');
 
     // Product controller
-    Route::post('/SaveProduct', [ProductController::class ,'SaveProduct'])->name('SaveProduct');
-    Route::delete('/deleteProduct/{id}', [ProductController::class ,'deleteProduct']);
-    Route::get('/editeProduct/{id}', [ProductController::class ,'editeProduct'])->name('editeProduct');;
-    Route::put('/UpdateProduct/{id}', [ProductController::class ,'UpdateProduct']);
-    Route::put('/DesactiverProduct/{id}', [ProductController::class ,'DesactiverProduct']);
-    Route::put('/activerProduct/{id}', [ProductController::class ,'activerProduct']);
+    Route::post('/SaveProduct', [ProductController::class ,'SaveProduct'])->name('SaveProduct')->middleware('userAcces:vendeur');
+    Route::delete('/deleteProduct/{id}', [ProductController::class ,'deleteProduct'])->middleware('userAcces:vendeur');
+    Route::get('/editeProduct/{id}', [ProductController::class ,'editeProduct'])->name('editeProduct')->middleware('userAcces:vendeur');
+    Route::put('/UpdateProduct/{id}', [ProductController::class ,'UpdateProduct'])->middleware('userAcces:vendeur');
+    Route::put('/DesactiverProduct/{id}', [ProductController::class ,'DesactiverProduct'])->middleware('userAcces:vendeur');
+    Route::put('/activerProduct/{id}', [ProductController::class ,'activerProduct'])->middleware('userAcces:vendeur');
+    Route::get('/VoirCommande/{id}', [pdfController::class ,'VoirCommande'])->middleware('userAcces:vendeur');
 
+    // End vendeur
 
 
     Route::post('/logout' , [AuthenController::class , 'logout'] )->name('logout');
     //pdf controller
-    Route::get('/VoirCommande/{id}', [pdfController::class ,'VoirCommande']);
 });
 
 
