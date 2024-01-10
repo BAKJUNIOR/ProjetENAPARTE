@@ -77,8 +77,11 @@ class RendezVousController extends Controller
             $appointment->update(['status' => 'confirmer']);
 
             Mail::to($appointment->client->email)->send(new RendezVousConfirmMail($appointment));
+            Log::info('Email sent successfully.'); // Ajoutez cette ligne pour les journaux
 
             return response()->json(['message' => 'Rendez-vous confirmé avec succès.']);
+
+
         } else {
             return response()->json(['message' => 'Le rendez-vous n\'est pas en attente, impossible de le confirmer.']);
         }

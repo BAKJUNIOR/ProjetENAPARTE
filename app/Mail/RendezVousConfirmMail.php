@@ -22,7 +22,7 @@ class RendezVousConfirmMail extends Mailable
 
     public function build()
     {
-        return $this->subject('Vérification du rendez-vous')->view('mail.RendezVousConfirmMail');
+        return $this->subject('Verification & Conformation du rendez-vous')->view('mail/RendezVousConfirmMail');
     }
 
 
